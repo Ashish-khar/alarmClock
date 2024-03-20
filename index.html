@@ -1,84 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alarm Clock</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
-    body {
-        background-color: #f5f5f5;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .clock-container {
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .clock {
-        font-size: 3rem;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .alarm-input {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-
-    .alarm-input input {
-        width: 60px;
-        margin: 0 10px;
-        padding: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        text-align: center;
-    }
-
-    .alarm-input select {
-        padding: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
-    .set-alarm-btn {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 8px 16px;
-        cursor: pointer;
-    }
-
-    .alarm-item {
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .delete-btn {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Clock</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -103,64 +30,7 @@
     </div>
 </div>
 
-<script>
-    // Function to update the clock display
-    function updateTime() {
-        const now = new Date();
-        const hours = now.getHours() % 12 || 12;
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-        document.querySelector('.clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
-    }
-
-    // Function to set an alarm
-    function setAlarm() {
-        const hour = document.getElementById('hour').value;
-        const minute = document.getElementById('minute').value;
-        const second = document.getElementById('second').value;
-        const ampm = document.getElementById('ampm').value;
-        const alarmTime = `${hour}:${minute}:${second} ${ampm}`;
-        
-        const listItem = document.createElement('div');
-        listItem.className = 'alarm-item';
-        listItem.innerHTML = `
-            <span>${alarmTime}</span>
-            <button class="delete-btn">Delete</button>
-        `;
-        const deleteButton = listItem.querySelector('.delete-btn');
-        deleteButton.addEventListener('click', function() {
-            clearTimeout(timeout);
-            listItem.remove();
-        });
-        document.getElementById('alarms').appendChild(listItem);
-        const alarmDateTime = new Date();
-        alarmDateTime.setHours(ampm === 'PM' ? parseInt(hour) + 12 : parseInt(hour));
-        alarmDateTime.setMinutes(parseInt(minute));
-        alarmDateTime.setSeconds(parseInt(second));
-        
-        // Calculate timeout to the next occurrence if the alarm time is in the past
-        let timeout = alarmDateTime - Date.now();
-        if (timeout < 0) {
-            timeout += 24 * 60 * 60 * 1000; // Add 24 hours
-        }
-
-        timeout = setTimeout(() => {
-            alert(`Alarm! It's ${alarmTime}`);
-            listItem.remove();
-        }, timeout);
-
-        // Store the timeout value in a data attribute for future reference
-        listItem.dataset.timeoutId = timeout;
-    }
-
-    // Event listener for setting alarm
-    document.getElementById('setAlarm').addEventListener('click', setAlarm);
-
-    // Function to update clock display every second
-    setInterval(updateTime, 1000);
-    updateTime(); // Call updateTime once to display initial time
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
